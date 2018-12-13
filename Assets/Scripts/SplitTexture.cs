@@ -93,6 +93,33 @@ public class SplitTexture
             }
             Work(plist, _outPath);
         }
+        //复制源文件文件到输出目录
+        if (outPath != null && false) {
+            foreach (var plist in plists)
+            {
+                string p1 = plist.path + "/" + plist.plistName;
+                string p2 = plist.path + "/" + plist.textureName;
+                string out1 = outPath + "/" + plist.plistName;
+                string out2 = outPath + "/" + plist.textureName;
+                if (File.Exists(p1) && File.Exists(p2))
+                {
+                    if (File.Exists(out1))
+                    {
+                        File.Delete(out1);
+                    }
+                    File.WriteAllBytes(out1, File.ReadAllBytes(p1));
+                    if (File.Exists(out2))
+                    {
+                        File.Delete(out2);
+                    }
+                    File.WriteAllBytes(out2, File.ReadAllBytes(p2));
+                }
+                else
+                {
+                    Debug.Log("文件不完整:" + p1);
+                }
+            }
+        }
     }
 
     //遍历文件夹找出所有plist文件

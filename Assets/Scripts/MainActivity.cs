@@ -32,6 +32,9 @@ public class MainActivity : MonoBehaviour
     private Text m_Outlog_State;
     private Text m_Outlog_Show;
 
+    //强制回收垃圾(Texture2d贴图每次(重复)加载都会分配内存)
+    private int tick = 0;
+
     // Use this for initialization
     void Start()
     {
@@ -66,6 +69,10 @@ public class MainActivity : MonoBehaviour
     {
         m_Outlog_State.text = SplitTexture.state;
         m_Outlog_Show.text = "完成" + SplitTexture.number;
+        if (++tick % 100 == 0)
+        {
+            GC.Collect();
+        }
     }
     //注册事件
     void InitializationEvent()

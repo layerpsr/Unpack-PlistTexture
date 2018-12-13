@@ -17,7 +17,7 @@ public class Plist
     public static Plist Xml(string sourcePath)
     {
         FileInfo info = new FileInfo(sourcePath);
-        if (!string.IsNullOrEmpty(sourcePath) && info.Name.EndsWith(".plist"))
+        if (info.Exists && info.Name.EndsWith(".plist") ) 
         {
             Plist ret = new Plist();
             ret.path = Path.GetDirectoryName(sourcePath).Replace("\\","/");
@@ -27,7 +27,8 @@ public class Plist
             ret.frames = new Dictionary<string, Frame>();
             //解析Xml
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(sourcePath);
+            //xmlDoc.Load(sourcePath);
+            xmlDoc.LoadXml(File.ReadAllText(sourcePath));
             XmlNodeList node = xmlDoc.SelectSingleNode("plist").ChildNodes;
             foreach (XmlElement list in node)
             {

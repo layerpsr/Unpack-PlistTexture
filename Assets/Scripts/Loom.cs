@@ -26,6 +26,7 @@ public class Loom : MonoBehaviour
     private Queue<Action> mainQueue = new Queue<Action>();
     //线程对象
     private Thread thread = null;
+    
     //主线程每次Update执行Function数量
     private static int doUpdate = 5;
 
@@ -51,7 +52,8 @@ public class Loom : MonoBehaviour
         {
             if (asyncQueue.Count > 0)
             {
-                asyncQueue.Dequeue()();
+                var func = asyncQueue.Dequeue();
+                func();
             }
         }
         else
@@ -61,7 +63,8 @@ public class Loom : MonoBehaviour
                 int number = doUpdate;
                 do
                 {
-                    mainQueue.Dequeue()();
+                    var func = mainQueue.Dequeue();
+                    func();
                     number--;
                 } while (number > 0 && mainQueue.Count > 0);
             }
